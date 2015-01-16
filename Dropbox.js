@@ -8,32 +8,15 @@ var standardheaders = {
     'Content-Type' : 'application/x-www-form-urlencoded'
 };
 
-//var main = function (token) {
-//    
-//
-//    processAction(accountInfoOptions, function (err, body) {
-//        if (err) {
-//            console.log(err);
-//        } else {
-//            console.log(body);
-//        }
-//    });
-//    
-//    processAction(new ShareLinkOptions("distribution"), function (err, body) {
-//        if (err) {
-//            console.log(err);
-//        } else {
-//            console.log(body);
-//        }
-//    });   
-//    processAction(new ShareLinkOptions("apps"), function (err, body) {
-//        if (err) {
-//            console.log(err);
-//        } else {
-//            console.log(body);
-//        }
-//    });     
-//};
+var ShareLinkOptions = function (path) {
+    var options = {
+        url : 'https://api.dropbox.com/1/shares/auto/' + path,
+        method : 'POST',
+        headers : standardheaders,
+        rejectUnauthorized : false
+    };
+    return options;
+};
 
 var processAction = function (optionSet, cb) {
     request(optionSet, function (error, response, body) {
@@ -41,7 +24,7 @@ var processAction = function (optionSet, cb) {
             console.log("request error:", error);
             cb("error");
         } else if (response.statusCode === 200) {
-            //console.log("correct response:", body);
+            console.log("correct response:", body);
             cb(null, body);
         } else {
             console.log("unusual response:", response);
@@ -113,23 +96,6 @@ var tokenManager = (function () {
     };
 })();
 exports.ready = tokenManager.ready;
-
-//var accountInfoOptions = {
-//    url : 'https://api.dropbox.com/1/account/info',
-//    method : 'GET',
-//    headers : standardheaders,
-//    rejectUnauthorized : false
-//};
-
-var ShareLinkOptions = function (path) {
-    var options = {
-        url : 'https://api.dropbox.com/1/shares/auto/' + path,
-        method : 'POST',
-        headers : standardheaders,
-        rejectUnauthorized : false
-    };
-    return options;
-};
 
 var getLink = function (path, cb) {
     if (tokenManager.ready()) {
