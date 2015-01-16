@@ -1,5 +1,5 @@
-Dropbox
-=======
+dropbox-mk2
+===========
 
 A tool for generating links to files/folders in your dropbox folder
 
